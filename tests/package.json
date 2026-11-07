@@ -1,0 +1,12 @@
+{
+  "name": "yt-plus-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "smoke": "node smoke.mjs",
+    "benchmark": "node benchmark.mjs"
+  },
+  "dependencies": {
+    "playwright-core": "^1.50.0"
+  }
+}

@@ -1,0 +1,53 @@
+// Default settings. "Reset to defaults" in the popup returns to these.
+globalThis.YTU_DEFAULTS = {
+  // Cleanup (Unhook)
+  hideHome: false,
+  hideRecommended: true,
+  hideFundraiser: true,
+  hideEndScreen: true,
+  hideCards: true,
+  hideShorts: true,
+  hideMixes: true,
+  hideMerch: true,
+  hideMoreFromYT: true,
+  disableAutoplay: true,
+  hideAutonavToggle: true,
+  disableAnnotations: true,
+
+  // Playback (Enhancer)
+  blockAutoplay: false,
+  allowPlaylistAutoplay: true,
+  convertShorts: true,
+  selectQuality: true,
+  qualityVideos: 'hd2160',
+  qualityPlaylists: 'hd2160',
+  qualityEmbeds: 'medium',
+  resetSpeed: true,
+  defaultSpeed: 1,
+  gridPerRow: 4,
+  channelGridPerRow: 4,
+
+  // Ambient glow (Ambient light)
+  ambient: true,
+  ambientShortcut: true,
+  glowFps: 10,
+  brightness: 60,
+  contrast: 100,
+  saturation: 100,
+  blur: 100,
+  spread: 40,
+  fadeStart: 40,
+  fadeCurve: 40,
+  filmGrain: 50,
+  resolution: 6.25,
+  videoShadowSize: 40,
+  videoShadowOpacity: 20,
+  headerFill: 40,
+  headerShadowSize: 80,
+  headerShadowOpacity: 20,
+  contentFill: 10,
+  contentImages: 80,
+  contentShadowSize: 80,
+  contentShadowOpacity: 20,
+  hideScrollbar: true
+};

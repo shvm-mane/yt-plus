@@ -1,0 +1,90 @@
+{
+  "manifest_version": 3,
+  "name": "YT+",
+  "version": "1.3.0",
+  "description": "Distraction removal, playback defaults and an ambient glow for YouTube.",
+  "minimum_chrome_version": "116",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsUL4XmY9oqaLNEN49/bKrrTTqOjCSzjJdvQLPOCcW9JxV1XScDLTsvu4oequRm+hIwdNivmT4ZhHswbgG0dxA9wJmzPn/xKnBgSO15MBuRKv1BcV/xJKA0eaVTDMKCogKQR+sbwJOseDV/Lyav1IqLRJJka/JBo3VTdkTHrZtNROsfN+T9slQjBOX5lDztdwdkjm6Vo/xXvPgfwieb4dAwzvYDorxdsiQVLW2+uXb4JTX2HKKGJxX/awcGMZ62rhYL+K5MXV/qxP0ckA++k06pmFm1uck4HH1wF5rBnu2dUJya1wcxrKp19yEsBMghc+LHe1BDv514EgU/UZ4JUSfQIDAQAB",
+  "permissions": [
+    "storage"
+  ],
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "YT+",
+    "default_icon": {
+      "16": "icons/16.png",
+      "32": "icons/32.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/embed/*",
+        "https://www.youtube-nocookie.com/embed/*"
+      ],
+      "all_frames": true,
+      "run_at": "document_start",
+      "css": [
+        "src/page.css"
+      ],
+      "js": [
+        "src/settings.js",
+        "src/content.js"
+      ]
+    },
+    {
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "exclude_matches": [
+        "https://www.youtube.com/live_chat*",
+        "https://www.youtube.com/embed/*"
+      ],
+      "all_frames": false,
+      "run_at": "document_start",
+      "css": [
+        "src/page.css"
+      ],
+      "js": [
+        "src/settings.js",
+        "src/content.js",
+        "src/ambient.js"
+      ]
+    },
+    {
+      "matches": [
+        "https://www.youtube.com/*",
+        "https://www.youtube-nocookie.com/embed/*"
+      ],
+      "exclude_matches": [
+        "https://www.youtube.com/live_chat*"
+      ],
+      "all_frames": true,
+      "run_at": "document_start",
+      "world": "MAIN",
+      "js": [
+        "src/player.js"
+      ]
+    },
+    {
+      "matches": [
+        "https://www.youtube.com/live_chat*"
+      ],
+      "all_frames": true,
+      "run_at": "document_start",
+      "css": [
+        "src/live-chat.css"
+      ],
+      "exclude_matches": [
+        "https://www.youtube.com/live_chat?is_popout=1*",
+        "https://www.youtube.com/live_chat_replay?is_popout=1*"
+      ]
+    }
+  ]
+}

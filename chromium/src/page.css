@@ -1,0 +1,208 @@
+html[data-ytu-hide-home] ytd-browse[page-subtype="home"] :is(ytd-rich-grid-renderer, #chips-wrapper, ytd-feed-filter-chip-bar-renderer) { display: none !important; }
+/* ---- Cleanup ---- */
+html[data-ytu-hide-recommended] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #related,
+html[data-ytu-hide-recommended] ytd-watch-next-secondary-results-renderer { display: none !important; }
+
+html[data-ytu-hide-fundraiser] ytd-donation-shelf-renderer,
+html[data-ytu-hide-fundraiser] #donation-shelf,
+html[data-ytu-hide-fundraiser] ytd-donation-unavailable-renderer { display: none !important; }
+
+html[data-ytu-hide-endscreen] .html5-endscreen,
+html[data-ytu-hide-endscreen] .ytp-endscreen-content,
+html[data-ytu-hide-endscreen] .videowall-endscreen,
+html[data-ytu-hide-endscreen] .ytp-autonav-endscreen,
+html[data-ytu-hide-endscreen] .ytp-fullscreen-grid,
+html[data-ytu-hide-endscreen] .ytp-ce-element,
+html[data-ytu-hide-endscreen] .ytp-ce-covering-overlay { display: none !important; }
+
+html[data-ytu-hide-cards] .ytp-cards-button,
+html[data-ytu-hide-cards] .ytp-cards-teaser,
+html[data-ytu-hide-cards] .iv-branding,
+html[data-ytu-hide-cards] .ytp-paid-content-overlay { display: none !important; }
+
+html[data-ytu-no-annotations] .annotation,
+html[data-ytu-no-annotations] .video-annotations,
+html[data-ytu-no-annotations] .ytp-iv-player-content { display: none !important; }
+
+html[data-ytu-hide-shorts] ytd-guide-entry-renderer:has(a[title="Shorts"]),
+html[data-ytu-hide-shorts] ytd-guide-entry-renderer:has(a[href^="/shorts"]),
+html[data-ytu-hide-shorts] ytd-mini-guide-entry-renderer[aria-label="Shorts"],
+html[data-ytu-hide-shorts] ytd-mini-guide-entry-renderer:has(a[href^="/shorts"]),
+html[data-ytu-hide-shorts] ytd-reel-shelf-renderer,
+html[data-ytu-hide-shorts] ytd-rich-shelf-renderer[is-shorts],
+html[data-ytu-hide-shorts] ytd-rich-section-renderer:has(ytd-rich-shelf-renderer[is-shorts]),
+html[data-ytu-hide-shorts] ytd-rich-section-renderer:has(ytm-shorts-lockup-view-model),
+html[data-ytu-hide-shorts] ytd-rich-section-renderer:has(ytm-shorts-lockup-view-model-v2),
+html[data-ytu-hide-shorts] grid-shelf-view-model:has(ytm-shorts-lockup-view-model),
+html[data-ytu-hide-shorts] grid-shelf-view-model:has(ytm-shorts-lockup-view-model-v2),
+html[data-ytu-hide-shorts] ytm-shorts-lockup-view-model,
+html[data-ytu-hide-shorts] ytm-shorts-lockup-view-model-v2,
+html[data-ytu-hide-shorts] ytd-video-renderer:has(a[href^="/shorts/"]),
+html[data-ytu-hide-shorts] ytd-grid-video-renderer:has(a[href^="/shorts/"]),
+html[data-ytu-hide-shorts] ytd-rich-item-renderer:has(a[href^="/shorts/"]),
+html[data-ytu-hide-shorts] yt-lockup-view-model:has(a[href^="/shorts/"]),
+html[data-ytu-hide-shorts] ytd-notification-renderer:has(a[href^="/shorts/"]),
+html[data-ytu-hide-shorts] yt-tab-shape[tab-title="Shorts"],
+html[data-ytu-hide-shorts] yt-chip-cloud-chip-renderer:has(a[title="Shorts"]) { display: none !important; }
+
+html[data-ytu-hide-mixes] ytd-radio-renderer,
+html[data-ytu-hide-mixes] ytd-compact-radio-renderer,
+html[data-ytu-hide-mixes] ytd-rich-item-renderer:has(a[href*="start_radio=1"]),
+html[data-ytu-hide-mixes] yt-lockup-view-model:has(a[href*="start_radio=1"]),
+html[data-ytu-hide-mixes] ytd-playlist-renderer:has(a[href*="start_radio=1"]) { display: none !important; }
+
+html[data-ytu-hide-merch] ytd-merch-shelf-renderer,
+html[data-ytu-hide-merch] ytd-ticket-shelf-renderer,
+html[data-ytu-hide-merch] #ticket-shelf,
+html[data-ytu-hide-merch] ytd-offer-module-renderer,
+html[data-ytu-hide-merch] #offer-module,
+html[data-ytu-hide-merch] .ytp-suggested-action { display: none !important; }
+
+html[data-ytu-hide-more] ytd-guide-section-renderer:has(a[href^="https://music.youtube.com"]) { display: none !important; }
+
+/* ---- Grid ---- */
+html[data-ytu-grid] ytd-rich-grid-renderer {
+  --ytd-rich-grid-items-per-row: var(--ytu-grid) !important;
+  --ytd-rich-grid-item-min-width: 0px !important;
+}
+html[data-ytu-channel-grid] ytd-browse[page-subtype="channels"] ytd-rich-grid-renderer {
+  --ytd-rich-grid-items-per-row: var(--ytu-channel-grid) !important;
+  --ytd-rich-grid-channel-items-per-row: var(--ytu-channel-grid) !important;
+  --ytd-rich-grid-item-min-width: 0px !important;
+}
+
+/* ---- Scrollbar ---- */
+html[data-ytu-hide-scrollbar] { scrollbar-width: none; }
+html[data-ytu-hide-scrollbar]::-webkit-scrollbar { display: none; }
+
+/* ---- Ambient glow ---- */
+#ytu-ambient {
+  position: absolute; top: 0; left: 0; right: 0; height: 0;
+  overflow: hidden; pointer-events: none; z-index: -1; contain: layout paint;
+}
+#ytu-ambient.ytu-fs { position: fixed; bottom: 0; height: auto !important; }
+#ytu-ambient canvas, #ytu-ambient .ytu-shadow, #ytu-ambient .ytu-top { position: absolute; display: block; }
+#ytu-ambient .ytu-top { top: 0; left: 0; width: 1px; height: 1px; }
+#ytu-ambient .ytu-shadow { border-radius: 12px; }
+#ytu-ambient.ytu-fs .ytu-shadow { border-radius: 0; }
+
+/* Doubled attribute: YouTube's own page colour rule otherwise wins and shows grey. */
+html[data-ytu-ambient-on][data-ytu-ambient-on] { background: #000 !important; }
+html[data-ytu-ambient-on][data-ytu-ambient-on] body { background: transparent !important; }
+
+/* Film grain, painted into the page itself so it needs no extra GPU layer. */
+html[data-ytu-ambient-on][data-ytu-grain] ytd-app::before {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0;
+  height: var(--ytu-grain-h, 0);
+  z-index: -1;
+  pointer-events: none;
+  background: var(--ytu-grain-img, none) 0 0 / var(--ytu-grain-size, 128px);
+  image-rendering: pixelated;
+  opacity: var(--ytu-grain, .5);
+  -webkit-mask-image: linear-gradient(#000 calc(100% - 360px), transparent);
+  mask-image: linear-gradient(#000 calc(100% - 360px), transparent);
+}
+
+html[data-ytu-ambient-on] ytd-app,
+html[data-ytu-ambient-on] ytd-page-manager,
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie),
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #columns,
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #player-theater-container,
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #player-wide-container,
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #full-bleed-container,
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #player-full-bleed-container,
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #player-container-outer,
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #player-container-inner,
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #player-container,
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #player,
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #ytd-player,
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #container.ytd-player,
+html[data-ytu-ambient-on] #movie_player,
+html[data-ytu-ambient-on] #movie_player .html5-video-container,
+html[data-ytu-ambient-on] video.html5-main-video {
+  background: transparent !important;
+  --yt-spec-base-background: transparent;
+}
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #cinematics,
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #cinematics-container,
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #cinematics-full-bleed-container { display: none !important; }
+html[data-ytu-ambient-on]:fullscreen, html[data-ytu-ambient-on] ytd-app:fullscreen { background: #000 !important; }
+
+/* Header: clear at the top of the page, tinted and blurred once scrolled */
+html[data-ytu-ambient-on] #masthead-container,
+html[data-ytu-ambient-on] #background.ytd-masthead,
+html[data-ytu-ambient-on] #frosted-glass { background: none !important; backdrop-filter: none !important; }
+html[data-ytu-ambient-on] #masthead-container.ytd-app::after { display: none; }
+html[data-ytu-ambient-on] #masthead-container { text-shadow: var(--ytu-header-text-shadow, none); }
+html[data-ytu-ambient-on] ytd-masthead {
+  background: var(--ytu-header-fill) !important;
+  backdrop-filter: blur(30px);
+  transition: background-color .15s;
+}
+html[data-ytu-ambient-on][data-ytu-at-top] ytd-masthead { background: none !important; backdrop-filter: none; }
+html[data-ytu-ambient-on] #masthead-container #voice-search-button { background: transparent !important; }
+html[data-ytu-ambient-on] #masthead-container .ytSearchboxComponentInputBox,
+html[data-ytu-ambient-on] #masthead-container #container.ytd-searchbox { background: none !important; border-color: rgba(255, 255, 255, .15) !important; }
+html[data-ytu-ambient-on] #masthead-container .ytSearchboxComponentInput::placeholder { color: rgba(245, 245, 245, .75) !important; }
+html[data-ytu-ambient-on] #masthead-container .ytSearchboxComponentSearchButton,
+html[data-ytu-ambient-on] #masthead-container #search-icon-legacy { background: var(--ytu-panel) !important; }
+
+/* Page colours and text around the player */
+html[data-ytu-ambient-on] body {
+  --yt-spec-text-secondary: rgba(245, 245, 245, .8);
+  --yt-spec-icon-inactive: rgba(245, 245, 245, .65);
+  --yt-spec-10-percent-layer: rgba(255, 255, 255, .1);
+  --yt-spec-outline: var(--yt-spec-10-percent-layer);
+}
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #below,
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #secondary { text-shadow: var(--ytu-content-text-shadow, none); }
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #below img,
+html[data-ytu-ambient-on] :is(ytd-watch-flexy, ytd-watch-grid, ytd-watch-fixie) #secondary img { opacity: var(--ytu-content-images, .8); }
+
+/* Cards and panels: tinted over the glow */
+html[data-ytu-ambient-on] ytd-engagement-panel-section-list-renderer,
+html[data-ytu-ambient-on] .header.ytd-playlist-panel-renderer,
+html[data-ytu-ambient-on] #primary #description.ytd-watch-metadata,
+html[data-ytu-ambient-on] ytd-watch-metadata .yt-spec-button-shape-next--tonal.yt-spec-button-shape-next--mono:not(:hover):not(:focus),
+html[data-ytu-ambient-on] ytd-watch-metadata .ytSpecButtonShapeNextTonal.ytSpecButtonShapeNextMono:not(:hover):not(:focus),
+html[data-ytu-ambient-on] yt-chip-cloud-chip-renderer:not([selected]) .ytChipShapeChip,
+html[data-ytu-ambient-on] ytd-rich-metadata-renderer,
+html[data-ytu-ambient-on] ytd-clarification-renderer,
+html[data-ytu-ambient-on] .ytVideoMetadataCarouselViewModelHost,
+html[data-ytu-ambient-on] ytd-live-chat-frame ytd-toggle-button-renderer:not(:hover):not(:focus-within) button.yt-spec-button-shape-next--size-m { background: var(--ytu-panel) !important; }
+
+/* ...with everything inside them see-through */
+html[data-ytu-ambient-on] #header.ytd-engagement-panel-title-header-renderer,
+html[data-ytu-ambient-on] #subheader.ytd-engagement-panel-title-header-renderer,
+html[data-ytu-ambient-on] #content.ytd-engagement-panel-section-list-renderer,
+html[data-ytu-ambient-on] .ytwTimelineChapterViewModelHost,
+html[data-ytu-ambient-on] ytd-macro-markers-list-renderer,
+html[data-ytu-ambient-on] ytd-transcript-search-panel-renderer,
+html[data-ytu-ambient-on] ytd-transcript-search-box-renderer,
+html[data-ytu-ambient-on] .input-container.ytd-transcript-search-box-renderer,
+html[data-ytu-ambient-on] ytd-transcript-footer-renderer,
+html[data-ytu-ambient-on] ytd-transcript-segment-list-renderer,
+html[data-ytu-ambient-on] ytd-info-panel-content-renderer,
+html[data-ytu-ambient-on] ytd-info-panel-content-renderer .header,
+html[data-ytu-ambient-on] ytd-info-panel-content-renderer .content,
+html[data-ytu-ambient-on] ytd-info-panel-container-renderer .header,
+html[data-ytu-ambient-on] ytd-playlist-panel-renderer:not([within-miniplayer]) #container.ytd-playlist-panel-renderer,
+html[data-ytu-ambient-on] ytd-playlist-panel-renderer:not([within-miniplayer]) #items.ytd-playlist-panel-renderer,
+html[data-ytu-ambient-on] .playlist-items.ytd-playlist-panel-renderer,
+html[data-ytu-ambient-on] ytd-live-chat-frame,
+html[data-ytu-ambient-on] ytd-live-chat-frame ytd-toggle-button-renderer,
+html[data-ytu-ambient-on] ytd-live-chat-frame #show-hide-button.ytd-live-chat-frame > ytd-button-renderer.ytd-live-chat-frame,
+html[data-ytu-ambient-on] yt-chip-cloud-renderer,
+html[data-ytu-ambient-on] ytd-item-section-renderer[static-comments-header] #header.ytd-item-section-renderer { background: none !important; }
+
+html[data-ytu-ambient-on] ytd-macro-markers-list-item-renderer #time.ytd-macro-markers-list-item-renderer { background-color: rgba(0, 0, 0, .05) !important; }
+html[data-ytu-ambient-on] #content.ytd-engagement-panel-section-list-renderer #contents.ytd-section-list-renderer::-webkit-scrollbar,
+html[data-ytu-ambient-on] .playlist-items.ytd-playlist-panel-renderer::-webkit-scrollbar { background: transparent; }
+
+html[data-ytu-hide-shorts] yt-chip-cloud-chip-renderer[data-ytu-shorts-chip] { display: none !important; }
+
+/* Autoplay switch next to the captions button. Hidden only, so it can still be switched off from code. */
+html[data-ytu-hide-autonav] .ytp-autonav-toggle,
+html[data-ytu-hide-autonav] .ytp-chrome-controls button:has(.ytp-autonav-toggle-button),
+html[data-ytu-hide-autonav] .ytp-chrome-controls [data-tooltip-target-id="ytp-autonav-toggle-button"] { display: none !important; }
