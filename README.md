@@ -28,9 +28,7 @@ everything's toggleable from the toolbar popup.
 
 **firefox** (and firefox-based browsers)
 1. download `yt-plus-firefox.xpi` from [releases](https://github.com/shvm-mane/yt-plus/releases/latest)
-2. it's unsigned, so either:
-   - set `xpinstall.signatures.required` to `false` in `about:config` (developer edition / nightly / most forks), then drag the `.xpi` in, **or**
-   - load it temporarily from `about:debugging` → **this firefox** → **load temporary add-on** (gone after restart)
+2. set `xpinstall.signatures.required` to `false` in `about:config` (developer edition / nightly / most forks), then drag the `.xpi` in
 
 ## credits
 
@@ -42,4 +40,4 @@ YT+ wouldn't exist without:
 
 ## license
 
-[MIT](LICENSE) (includes ambient light's Mit notice)
+[MIT](LICENSE) (includes ambient light's MIT notice)
