@@ -1,14 +1,14 @@
 <h1 align="center">YT+</h1>
 
 <p align="center">
-  unhook <code>&&</code> enhancer for youtube <code>&&</code> ambient light, in one extension
+  Unhook <code>&&</code> Enhancer for YouTube™ <code>&&</code> Ambient Light
 </p>
 
 <p align="center">
-  <a href="https://github.com/shvm-mane/yt-plus/releases/latest"><b>DOWNLOAD :)</b></a>
+  <a href="https://github.com/shvm-mane/yt-plus/releases/latest"><b>DOWNLOAD</b></a>
 </p>
 
-i used to run three youtube extensions at once. that's a lot of RAM and CPU for one website 🥲 so i merged em into one lightweight extension (w/ some tweaks ofc).
+three great YT extensions merged into one lightweight one.
 
 ## what it does
 
@@ -17,7 +17,7 @@ i used to run three youtube extensions at once. that's a lot of RAM and CPU for 
 - **layout:** 4 videos per row
 - **ambient light:** soft glow behind the player w/ subtle film grain, see-through header & panels. press `A` to toggle it
 
-everything's toggleable from the toolbar popup. built for dark mode + theatre mode.
+everything's toggleable from the toolbar popup.
 
 ## install
 
@@ -40,8 +40,6 @@ YT+ wouldn't exist without:
 - **[enhancer for youtube](https://www.mrfdev.com/enhancer-for-youtube)** by maxime rf: the playback tweaks
 - **[ambient light for youtube](https://github.com/WesselKroos/youtube-ambilight)** by wessel kroos (mit): the glow and its settings
 
-go use and support them.
-
 ## license
 
-[mit](LICENSE) (includes ambient light's mit notice)
+[MIT](LICENSE) (includes ambient light's Mit notice)
