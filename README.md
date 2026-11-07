@@ -1,4 +1,4 @@
-<h1 align="center">YT+</h1>
+<h1 align="center">YT+ (browser extension)</h1>
 
 <p align="center">
   Unhook <code>&&</code> Enhancer for YouTube™ <code>&&</code> Ambient Light
