@@ -21,12 +21,12 @@ everything's toggleable from the toolbar popup.
 
 ## install
 
-**chromium** (chrome, brave, edge, arc, etc.)
+**chromium**
 1. download `yt-plus-chromium.zip` from [releases](https://github.com/shvm-mane/yt-plus/releases/latest) and unzip it
 2. go to `chrome://extensions`, turn on **developer mode**
 3. **load unpacked** → pick the unzipped folder
 
-**firefox** (and firefox-based browsers)
+**firefox**
 1. download `yt-plus-firefox.xpi` from [releases](https://github.com/shvm-mane/yt-plus/releases/latest)
 2. set `xpinstall.signatures.required` to `false` in `about:config` (developer edition / nightly / most forks), then drag the `.xpi` in
 
@@ -34,10 +34,10 @@ everything's toggleable from the toolbar popup.
 
 YT+ wouldn't exist without:
 
-- **[unhook](https://unhook.app)** by unhook: the idea for hiding all the distracting stuff
-- **[enhancer for youtube](https://www.mrfdev.com/enhancer-for-youtube)** by maxime rf: the playback tweaks
-- **[ambient light for youtube](https://github.com/WesselKroos/youtube-ambilight)** by wessel kroos (mit): the glow and its settings
+- **[Unhook](https://unhook.app)**: the idea for hiding all the distracting stuff
+- **[Enhancer for YouTube™](https://www.mrfdev.com/enhancer-for-youtube)** by Max RF: the playback tweaks
+- **[Ambient Light for Youtube](https://github.com/WesselKroos/youtube-ambilight)** by Wessel Kroos: the glow and its settings
 
 ## license
 
-[MIT](LICENSE) (includes ambient light's MIT notice)
+[MIT](LICENSE) (includes Ambient Light's MIT notice)
