@@ -20,9 +20,6 @@ html[data-ytu-hide-cards] .ytp-cards-teaser,
 html[data-ytu-hide-cards] .iv-branding,
 html[data-ytu-hide-cards] .ytp-paid-content-overlay { display: none !important; }
 
-html[data-ytu-no-annotations] .annotation,
-html[data-ytu-no-annotations] .video-annotations,
-html[data-ytu-no-annotations] .ytp-iv-player-content { display: none !important; }
 
 html[data-ytu-hide-shorts] ytd-guide-entry-renderer:has(a[title="Shorts"]),
 html[data-ytu-hide-shorts] ytd-guide-entry-renderer:has(a[href^="/shorts"]),
@@ -206,3 +203,22 @@ html[data-ytu-hide-shorts] yt-chip-cloud-chip-renderer[data-ytu-shorts-chip] { d
 html[data-ytu-hide-autonav] .ytp-autonav-toggle,
 html[data-ytu-hide-autonav] .ytp-chrome-controls button:has(.ytp-autonav-toggle-button),
 html[data-ytu-hide-autonav] .ytp-chrome-controls [data-tooltip-target-id="ytp-autonav-toggle-button"] { display: none !important; }
+html[data-ytu-hide-playables] ytd-browse[page-subtype="home"] ytd-rich-section-renderer:not(:has(ytd-rich-shelf-renderer[is-shorts])),
+html[data-ytu-hide-playables] :is(ytd-rich-section-renderer, ytd-rich-item-renderer, ytd-shelf-renderer, ytd-reel-shelf-renderer, ytd-horizontal-card-list-renderer):has(ytd-mini-game-card-view-model),
+html[data-ytu-hide-playables] :is(ytd-guide-entry-renderer, ytd-mini-guide-entry-renderer):has(a[href^="/playables"]),
+html[data-ytu-hide-playables] ytd-mini-game-card-view-model,
+html[data-ytu-hide-playables] :is(ytd-statement-banner-renderer, ytd-banner-promo-renderer, ytd-brand-video-shelf-renderer, ytd-brand-video-singleton-renderer) { display: none !important; }
+
+/* Controls below the video: the red progress line sits on the video's bottom edge. */
+html[data-ytu-controls-below] ytd-watch-flexy:not([fullscreen]) :is(#full-bleed-container, #player-container-outer) { margin-bottom: 62px !important; overflow: visible !important; }
+html[data-ytu-controls-below] ytd-watch-flexy:not([fullscreen]) :is(#player-container-inner, #player-container, #ytd-player, #container.ytd-player, #movie_player) { overflow: visible !important; }
+html[data-ytu-controls-below] ytd-watch-flexy:not([fullscreen]) #movie_player .ytp-chrome-bottom { translate: 0 calc(100% + 3px); opacity: 1 !important; }
+html[data-ytu-controls-below] ytd-watch-flexy:not([fullscreen]) #movie_player :is(.ytp-gradient-bottom) { display: none !important; }
+
+/* Center the video page when the right column is empty. */
+html[data-ytu-center][data-ytu-side-empty] ytd-watch-flexy #columns { justify-content: center !important; position: relative; }
+html[data-ytu-center][data-ytu-side-empty] ytd-watch-flexy #primary {
+  flex: 0 1 calc(100% - 2 * var(--ytd-watch-flexy-horizontal-page-margin, 16px) - var(--ytd-watch-flexy-sidebar-width, 396px)) !important;
+  margin-left: 0 !important; padding-left: var(--ytd-watch-flexy-horizontal-page-margin, 16px) !important; box-sizing: border-box;
+}
+html[data-ytu-center][data-ytu-side-empty] ytd-watch-flexy #secondary { position: absolute !important; right: 0; top: 0; pointer-events: none; }

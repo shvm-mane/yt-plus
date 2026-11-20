@@ -170,10 +170,93 @@
     disableAutonav(player);
   };
 
+  // ---- Controls below the video
+  // With the controls moved below the video they stay visible, but YouTube stops updating
+  // them once it auto-hides them (and keeping them awake costs a lot: it rewrites them every
+  // frame). So while they're asleep, move just the progress bar, dot and time ourselves,
+  // about once per pixel of progress. YouTube takes over again as soon as they wake.
+  let tickTimer = 0;
+  let segments = null;
+  const fmt = (t) => {
+    const s = Math.floor(t % 60), m = Math.floor(t / 60) % 60, h = Math.floor(t / 3600);
+    return h ? `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}` : `${m}:${String(s).padStart(2, '0')}`;
+  };
+  const asleep = (player) => S?.controlsBelow && player && !document.hidden && !document.fullscreenElement
+    && player.classList.contains('ytp-autohide') && !player.classList.contains('ad-showing');
+  const tick = () => {
+    const player = mainPlayer();
+    const video = player?.querySelector('video');
+    if (!asleep(player) || !video || !Number.isFinite(video.duration) || !video.duration) { stopTicking(); return; }
+    if (!segments) {
+      const bar = player.querySelector('.ytp-progress-bar');
+      if (!bar) { stopTicking(); return; }
+      const base = bar.getBoundingClientRect();
+      segments = {
+        list: [...bar.querySelectorAll('.ytp-chapter-hover-container')].map((el) => {
+          const r = el.getBoundingClientRect();
+          return { left: r.left - base.left, width: r.width, play: el.querySelector('.ytp-play-progress'), load: el.querySelector('.ytp-load-progress'), p: -1, l: -1 };
+        }),
+        scrubber: player.querySelector('.ytp-scrubber-container'),
+        time: player.querySelector('.ytp-time-current')
+      };
+    }
+    const { list, scrubber, time } = segments;
+    // Chapters are drawn as separate pieces with gaps between them; time maps onto the
+    // pieces only, so walk them to find the pixel for a given moment.
+    const total = list.reduce((sum, seg) => sum + seg.width, 0);
+    const at = (t) => {
+      let rest = Math.min(1, Math.max(0, t / video.duration)) * total;
+      for (const seg of list) {
+        if (rest <= seg.width) return seg.left + rest;
+        rest -= seg.width;
+      }
+      return list.length ? list[list.length - 1].left + list[list.length - 1].width : 0;
+    };
+    const x = at(video.currentTime);
+    const b = video.buffered;
+    let loaded = x;
+    for (let i = 0; i < b.length; i++) if (b.start(i) <= video.currentTime + 0.5) loaded = Math.max(loaded, at(b.end(i)));
+    for (const seg of list) {
+      const p = Math.round(Math.min(1, Math.max(0, (x - seg.left) / seg.width)) * 1000) / 1000;
+      const l = Math.round(Math.min(1, Math.max(0, (loaded - seg.left) / seg.width)) * 1000) / 1000;
+      if (p !== seg.p && seg.play) { seg.p = p; seg.play.style.transform = `scaleX(${p})`; }
+      if (l !== seg.l && seg.load) { seg.l = l; seg.load.style.transform = `scaleX(${l})`; }
+    }
+    if (scrubber) scrubber.style.transform = `translateX(${x.toFixed(1)}px)`;
+    const text = fmt(video.currentTime);
+    if (time && time.textContent !== text) time.textContent = text;
+  };
+  const stopTicking = () => { clearInterval(tickTimer); tickTimer = 0; segments = null; };
+  const startTicking = () => {
+    watchPlayer();
+    const player = mainPlayer();
+    const video = player?.querySelector('video');
+    if (tickTimer || !asleep(player) || !video || video.paused) return;
+    const width = player.querySelector('.ytp-progress-bar')?.clientWidth || 1000;
+    tickTimer = setInterval(tick, Math.min(1000, Math.max(100, 1000 * video.duration / width)));
+    tick();
+  };
+  const autohideWatch = new MutationObserver(() => {
+    if (mainPlayer()?.classList.contains('ytp-autohide')) startTicking(); else stopTicking();
+  });
+  let watchedPlayer = null;
+  const watchPlayer = () => {
+    const player = mainPlayer();
+    if (player === watchedPlayer) return;
+    autohideWatch.disconnect();
+    watchedPlayer = player;
+    if (player) autohideWatch.observe(player, { attributes: true, attributeFilter: ['class'] });
+  };
+  document.addEventListener('playing', (e) => { if (fromVideo(e.target) === mainPlayer()) startTicking(); }, true);
+  for (const type of ['pause', 'seeked']) {
+    document.addEventListener(type, (e) => { if (tickTimer && fromVideo(e.target) === mainPlayer()) { tick(); if (e.target.paused) stopTicking(); } }, true);
+  }
+  document.addEventListener('visibilitychange', startTicking);
+  window.addEventListener('resize', () => { segments = null; });
+
   // ---- Boot / SPA navigation
   const onNavigate = () => {
     if (!S) return;
-    userSetAutonav = false;
     userSetAutonav = false;
     redirectShorts();
     const player = mainPlayer();
@@ -193,6 +276,7 @@
     else {
       const player = mainPlayer();
       if (player) { disableAutonav(player); applyQuality(player); }
+      startTicking();
     }
   });
   window.dispatchEvent(new CustomEvent('ytu:request-settings'));

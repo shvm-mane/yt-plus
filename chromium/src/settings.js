@@ -1,7 +1,7 @@
-// Default settings. "Reset to defaults" in the popup returns to these.
+// Default settings. "Reset" in the popup returns to these; double-clicking a slider resets just that one.
 globalThis.YTU_DEFAULTS = {
   // Cleanup (Unhook)
-  hideHome: false,
+  hideHome: true,
   hideRecommended: true,
   hideFundraiser: true,
   hideEndScreen: true,
@@ -9,13 +9,15 @@ globalThis.YTU_DEFAULTS = {
   hideShorts: true,
   hideMixes: true,
   hideMerch: true,
+  hidePlayables: true,
   hideMoreFromYT: true,
   disableAutoplay: true,
   hideAutonavToggle: true,
-  disableAnnotations: true,
 
   // Playback (Enhancer)
   blockAutoplay: false,
+  controlsBelow: true,
+  centerVideo: true,
   allowPlaylistAutoplay: true,
   convertShorts: true,
   selectQuality: true,
@@ -29,19 +31,19 @@ globalThis.YTU_DEFAULTS = {
 
   // Ambient glow (Ambient light)
   ambient: true,
-  ambientShortcut: true,
+  ambientKey: 'A', // toggles the glow; '' = no shortcut
   glowFps: 10,
-  brightness: 60,
+  brightness: 40,
   contrast: 100,
-  saturation: 100,
+  saturation: 200,
   blur: 100,
   spread: 40,
-  fadeStart: 40,
-  fadeCurve: 40,
-  filmGrain: 50,
+  fadeStart: 100,
+  fadeCurve: 100,
+  filmGrain: 60,
   resolution: 6.25,
   videoShadowSize: 40,
-  videoShadowOpacity: 20,
+  videoShadowOpacity: 40,
   headerFill: 40,
   headerShadowSize: 80,
   headerShadowOpacity: 20,
@@ -50,4 +52,13 @@ globalThis.YTU_DEFAULTS = {
   contentShadowSize: 80,
   contentShadowOpacity: 20,
   hideScrollbar: true
+};
+
+// Turns a keydown into a name like "A" or "Shift+G" (null for a lone modifier).
+// Letters and digits use the physical key so Alt/Shift don't change the name.
+globalThis.YTU_keyName = (e) => {
+  if (['Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) return null;
+  const key = /^(Key|Digit)/.test(e.code) ? e.code.slice(e.code.startsWith('Key') ? 3 : 5)
+    : e.key === ' ' ? 'Space' : e.key.length === 1 ? e.key.toUpperCase() : e.key;
+  return [e.ctrlKey && 'Ctrl', e.altKey && 'Alt', e.shiftKey && 'Shift', e.metaKey && 'Cmd', key].filter(Boolean).join('+');
 };

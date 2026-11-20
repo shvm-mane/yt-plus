@@ -12,10 +12,10 @@ three great YT extensions merged into one lightweight one.
 
 ## what it does
 
-- **hide stuff:** home feed, recommended videos, shorts, mixes, end screen feed, cards, annotations, fundraisers, merch, "more from youtube"
+- **hide stuff:** home feed, recommended videos, shorts, mixes, end screen feed, cards, fundraisers, merch, playables & other home shelves, "more from youtube"
 - **playback:** no "up next" autoplay, shorts open as normal videos, auto quality (4k by default), speed resets every video
-- **layout:** 4 videos per row
-- **ambient light:** soft glow behind the player w/ subtle film grain, see-through header & panels. press `A` to toggle it
+- **layout:** 4 videos per row, controls below the video, center the video when the sidebar is empty
+- **ambient light:** soft glow behind the player w/ subtle film grain, see-through header & panels. press `A` (or your own key) to toggle it
 
 everything's toggleable from the toolbar popup.
 

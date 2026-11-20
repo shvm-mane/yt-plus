@@ -9,6 +9,14 @@
   if (window.top !== window || location.pathname.startsWith('/embed/')) return;
 
   const root = document.documentElement;
+  // A custom property on <html> restyles the whole page, so only write ones that changed.
+  const vars = new Map();
+  const setVar = (name, value) => {
+    value = String(value);
+    if (vars.get(name) === value) return;
+    vars.set(name, value);
+    root.style.setProperty(name, value);
+  };
   const MAX_CANVAS_W = 640;
   const log = (...args) => console.warn('[YT+]', ...args);
 
@@ -17,6 +25,18 @@
   const stretchParams = (g) => [
     g.w, g.h, g.halfW, g.halfH, g.boxW, g.boxH, g.extent, g.fadeStart, g.fadeCurve, 0, 0, 0
   ];
+
+  // Gaussian blur weights (25 taps, sigma = 6 taps) folded into 13 samples: neighbouring
+  // taps share one bilinear read placed between them, so each pass costs half as much.
+  const BLUR_TAPS = (() => {
+    const w = (i) => Math.exp(-0.5 * (i / 6) ** 2);
+    const taps = [];
+    for (let i = 1; i <= 12; i += 2) taps.push([(i * w(i) + (i + 1) * w(i + 1)) / (w(i) + w(i + 1)), w(i) + w(i + 1)]);
+    const total = w(0) + 2 * taps.reduce((s, [, weight]) => s + weight, 0);
+    return { center: (w(0) / total).toFixed(7), taps: taps.map(([o, weight]) => [o.toFixed(7), (weight / total).toFixed(7)]) };
+  })();
+  const blurBody = (sample) => [`${sample('uv')} * ${BLUR_TAPS.center}`,
+    ...BLUR_TAPS.taps.map(([o, weight]) => `(${sample(`uv + dir * ${o}`)} + ${sample(`uv - dir * ${o}`)}) * ${weight}`)].join(' +\n        ');
 
   // ---- WebGPU
   const WGSL_COMMON = `
@@ -54,15 +74,8 @@
     @group(0) @binding(1) var tex: texture_2d<f32>;
     @group(0) @binding(2) var<uniform> dir: vec2f;
     @fragment fn fs(v: VO) -> @location(0) vec4f {
-      var sum = vec4f(0.0);
-      var total = 0.0;
-      for (var i = -12; i <= 12; i++) {
-        let x = f32(i) / 6.0;
-        let w = exp(-0.5 * x * x);
-        sum += textureSampleLevel(tex, smp, v.uv + dir * f32(i), 0.0) * w;
-        total += w;
-      }
-      return sum / total;
+      let uv = v.uv;
+      return ${blurBody((at) => `textureSampleLevel(tex, smp, ${at}, 0.0)`)};
     }`;
   const WGSL_FINAL = `${WGSL_COMMON}
     @group(0) @binding(0) var smp: sampler;
@@ -215,15 +228,7 @@
   const GLSL_BLUR = `${GLSL_HEAD}
     uniform vec2 dir;
     void main() {
-      vec4 sum = vec4(0.0);
-      float total = 0.0;
-      for (int i = -12; i <= 12; i++) {
-        float x = float(i) / 6.0;
-        float w = exp(-0.5 * x * x);
-        sum += texture(tex, uv + dir * float(i)) * w;
-        total += w;
-      }
-      color = sum / total;
+      color = ${blurBody((at) => `texture(tex, ${at})`)};
     }`;
   const GLSL_FINAL = `${GLSL_HEAD}
     uniform vec3 adjust;
@@ -370,7 +375,9 @@
   const sizeObserver = new ResizeObserver(() => { layout(); draw(); schedule(); });
   // The page grows as comments load; that only changes how far down the glow may reach.
   const appObserver = new ResizeObserver(() => {
-    if (wrap && !document.fullscreenElement && wrap.style.display !== 'none') wrap.style.height = glowHeight();
+    if (!wrap || document.fullscreenElement || wrap.style.display === 'none') return;
+    const height = glowHeight();
+    if (wrap.style.height !== height) wrap.style.height = height;
   });
   let glowBottom = 0;
   const glowHeight = () => `${Math.min(glowBottom, Math.max(app()?.offsetHeight || 0, innerHeight))}px`;
@@ -481,8 +488,8 @@
     canvas.style.cssText = `left:${left}px;top:${y}px;width:${w}px;height:${h}px`;
     shadow.style.cssText = `left:${Math.round(pic.left + sx)}px;top:${Math.round(pic.top + sy)}px;width:${Math.round(pic.width)}px;height:${Math.round(pic.height)}px;`
       + (S.videoShadowSize && S.videoShadowOpacity ? `box-shadow:0 0 ${S.videoShadowSize}px rgba(0,0,0,${S.videoShadowOpacity / 100})` : '');
-    root.style.setProperty('--ytu-grain-h', `${y + h}px`);
-    root.style.setProperty('--ytu-grain-size', `${256 / (devicePixelRatio || 1)}px`);
+    setVar('--ytu-grain-h', `${y + h}px`);
+    setVar('--ytu-grain-size', `${256 / (devicePixelRatio || 1)}px`);
 
     // Blur at low resolution so the kernel stays small. The result is soft enough that
     // the canvas can be far below screen resolution; the film grain sits at full resolution.
@@ -560,7 +567,7 @@
 
   // ---- Lifecycle
   const setPageVars = () => {
-    const set = (k, v) => root.style.setProperty(k, v);
+    const set = setVar;
     const textShadow = (size, opacity) => (size && opacity ? `rgba(0,0,0,${Math.min(1, opacity / 100 * 1.8)}) 0 0 ${size / 5 * 2}px` : 'none');
     const fill = (value, rgb) => `rgba(${rgb},${rgb},${rgb},${Math.abs((value + 100) / 100 - 1).toFixed(3)})`;
     set('--ytu-header-fill', fill(S.headerFill, 0));
@@ -593,7 +600,7 @@
     c.getContext('2d').putImageData(img, 0, 0);
     c.convertToBlob().then((b) => {
       grainUrl = URL.createObjectURL(b);
-      root.style.setProperty('--ytu-grain-img', `url("${grainUrl}")`);
+      setVar('--ytu-grain-img', `url("${grainUrl}")`);
     }, () => { grainUrl = ''; });
   };
 
